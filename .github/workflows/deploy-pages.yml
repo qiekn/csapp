@@ -1,0 +1,71 @@
+name: Deploy Docs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Zensical
+        run: |
+          python -m pip install --upgrade pip
+          pip install zensical
+
+      - name: Set site URL
+        working-directory: docs
+        env:
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          import re
+
+          owner = os.environ["REPOSITORY_OWNER"]
+          repo = os.environ["REPOSITORY_NAME"]
+          base_url = f"https://{owner}.github.io/"
+          site_url = base_url if repo == f"{owner}.github.io" else f"{base_url}{repo}/"
+
+          config_path = Path("zensical.toml")
+          text = config_path.read_text(encoding="utf-8")
+          updated = re.sub(r'^site_url = ".*"$', f'site_url = "{site_url}"', text, count=1, flags=re.MULTILINE)
+          if updated == text:
+              raise SystemExit("Could not update site_url in docs/zensical.toml")
+          config_path.write_text(updated, encoding="utf-8")
+          print(f"Using site_url={site_url}")
+          PY
+
+      - name: Build Zensical
+        working-directory: docs
+        run: zensical build --clean
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs/site
+
+      - uses: actions/deploy-pages@v4
+        id: deployment
