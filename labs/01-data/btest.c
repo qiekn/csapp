@@ -292,9 +292,9 @@ static int test_3_arg(funct_t f, funct_t ft, int arg1, int arg2, int arg3,
  * test_function - Test a function.  Return number of errors
  */
 static int test_function(test_ptr t) {
-  int test_counts[3];    /* number of test values for each arg */
-  int args = t->args;    /* number of function arguments */
-  int arg_test_range[3]; /* test range for each argument */
+  int test_counts[3];                /* number of test values for each arg */
+  int args = t->args;                /* number of function arguments */
+  int arg_test_range[3] = {1, 1, 1}; /* test range for each argument */
   int i, a1, a2, a3;
   int errors = 0;
 
@@ -317,7 +317,7 @@ static int test_function(test_ptr t) {
   } else if (args == 2) {
     arg_test_range[0] = pow((double)TEST_RANGE, 0.5); /* sqrt */
     arg_test_range[1] = arg_test_range[0];
-  } else {
+  } else if (args == 3) {
     arg_test_range[0] = pow((double)TEST_RANGE, 0.333); /* cbrt */
     arg_test_range[1] = arg_test_range[0];
     arg_test_range[2] = arg_test_range[0];
