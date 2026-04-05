@@ -19,14 +19,7 @@ typedef struct {
     int rating;             /* Problem rating (1 -- 4) */
     int arg_ranges[3][2];   /* Argument ranges. Always defined for 3 args, even if */
                             /* the function takes fewer. Special case: First arg */
-			    /* must be set to {1,1} for f.p. puzzles */
+                            /* must be set to {1,1} for f.p. puzzles */
 } test_rec, *test_ptr;
 
 extern test_rec test_set[];
-
-
-
-
-
-
-
