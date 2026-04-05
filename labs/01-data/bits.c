@@ -42,7 +42,7 @@ INTEGER CODING RULES:
   2. Function arguments and local variables (no global variables).
   3. Unary integer operations ! ~
   4. Binary integer operations & ^ | + << >>
-    
+
   Some of the problems restrict the set of allowed operators even further.
   Each "Expr" may consist of multiple operators. You are not restricted to
   one operator per line.
@@ -119,7 +119,7 @@ NOTES:
 
 /*
  * STEP 2: Modify the following functions according the coding rules.
- * 
+ *
  *   IMPORTANT. TO AVOID GRADING SURPRISES:
  *   1. Use the dlc compiler to check that your solutions conform
  *      to the coding rules.
@@ -128,6 +128,8 @@ NOTES:
  */
 
 #endif
+
+/// integer
 
 // ----------------------------------------------------------------------------: 1
 
@@ -207,7 +209,6 @@ int conditional(int x, int y, int z) { return 2; }
  */
 int isLessOrEqual(int x, int y) { return 2; }
 
-
 // ----------------------------------------------------------------------------: 4
 
 /*
@@ -234,7 +235,8 @@ int logicalNeg(int x) { return 2; }
  */
 int howManyBits(int x) { return 0; }
 
-// float
+/// float
+
 /*
  * floatScale2 - Return bit-level equivalent of expression 2*f for
  *   floating point argument f.
@@ -276,4 +278,3 @@ int floatFloat2Int(unsigned uf) { return 2; }
  *   Rating: 4
  */
 unsigned floatPower2(int x) { return 2; }
-
