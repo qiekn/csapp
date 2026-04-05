@@ -1,4 +1,4 @@
-name: Deploy Docs
+﻿name: Deploy Docs
 
 on:
   push:
@@ -35,7 +35,7 @@ jobs:
           pip install zensical
 
       - name: Set site URL
-        working-directory: docs
+        working-directory: notes
         env:
           REPOSITORY_NAME: ${{ github.event.repository.name }}
           REPOSITORY_OWNER: ${{ github.repository_owner }}
@@ -54,18 +54,19 @@ jobs:
           text = config_path.read_text(encoding="utf-8")
           updated = re.sub(r'^site_url = ".*"$', f'site_url = "{site_url}"', text, count=1, flags=re.MULTILINE)
           if updated == text:
-              raise SystemExit("Could not update site_url in docs/zensical.toml")
+              raise SystemExit("Could not update site_url in notes/zensical.toml")
           config_path.write_text(updated, encoding="utf-8")
           print(f"Using site_url={site_url}")
           PY
 
       - name: Build Zensical
-        working-directory: docs
+        working-directory: notes
         run: zensical build --clean
 
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: docs/site
+          path: notes/site
 
       - uses: actions/deploy-pages@v4
         id: deployment
+
