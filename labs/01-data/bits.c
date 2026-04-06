@@ -139,8 +139,33 @@ NOTES:
  *   Legal ops: ~ &
  *   Max ops: 14
  *   Rating: 1
+ *
+ *   Truth table:
+ *     x y | f
+ *     ----+---
+ *     0 0 | 0
+ *     0 1 | 1
+ *     1 0 | 1
+ *     1 1 | 0
+ *
+ *   So:
+ *     f = (x & ~y) | (~x & y)
+ *
+ *   Let:
+ *     a = x & ~y
+ *     b = ~x & y
+ *
+ *   Then:
+ *     f = a | b
+ *       = ~(~a & ~b)
+ *       = ~(~(x & ~y) & ~(~x & y))
  */
-int bitXor(int x, int y) { return 2; }
+int bitXor(int x, int y) {
+  int a = x & ~y;
+  int b = ~x & y;
+
+  return ~(~a & ~b);
+}
 
 /*
  * tmin - return minimum two's complement integer
