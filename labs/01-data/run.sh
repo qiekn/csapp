@@ -1,3 +1,7 @@
 make clean && make -j
-./btest -g
-# gdb -q
+
+if [ "$1" == "test" ]; then
+  ./btest "$@"
+else
+  gdb -q
+fi
