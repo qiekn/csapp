@@ -1,3 +1,3 @@
-make clean && make
+make clean && make -j
 ./btest -g
 # gdb -q
